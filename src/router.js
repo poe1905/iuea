@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import Login from '@/views/login'
 import Home from '@/views/home'
 import List from '@/views/list'
+import Note from '@/views/note'
+import Newfeat from '@/views/newfeat'
+import User from '@/views/user'
 
 
 
@@ -22,51 +25,27 @@ const router = new VueRouter({
       component: Home,
       children: [
         {
-          name: 'home',
           path: '', // 默认子路由
           component: List
+        },
+        {
+          name: 'note',
+          path: '/note',
+          component: Note
+        },
+        {
+          name: 'newfeat',
+          path: '/newfeat', // 默认子路由
+          component: Newfeat
+        },
+        {
+          name: 'user',
+          path: '/user', // 默认子路由
+          component: User
         }
-      
+
       ]
-    },
-    // {
-    //   name: 'search-result',
-    //   path: '/search/:q',
-    //   component: SearchResult
-    // },
-    // {
-    //   name: 'article',
-    //   path: '/article/:articleId',
-    //   component: Article
-    // },
-    // {
-    //   name: 'user',
-    //   path: '/user',
-    //   component: User
-    // },
-    // {
-    //   name: 'chat',
-    //   path: '/chat',
-    //   component: Chat
-    // },
-    // {
-    //   // 嵌套路由如果有默认子路由，则不需要 name
-    //   // name: 'tabbar',
-    //   path: '/',
-    //   component: Tabbar,
-    //   children: [
-    //     {
-    //       name: 'home',
-    //       path: '', // 默认子路由
-    //       component: Home
-    //     },
-    //     {
-    //       name: 'my',
-    //       path: '/my', // 默认子路由
-    //       component: My
-    //     }
-    //   ]
-    // }
+    }
   ]
 })
 

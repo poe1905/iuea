@@ -1,10 +1,17 @@
 <template>
-  <el-menu default-active="1-4-1"
-           class="el-menu-vertical-demo"
-           @open="handleOpen"
-           @close="handleClose"
-           :collapse="isCollapse">
-    <el-submenu index="1">
+
+  <div class="menu">
+    <div class="loggo"><img src="../assets/img/loggo.png"
+           alt=""></div>
+    <!-- default-active="1-2"  选中列表项 -->
+    <el-menu :default-active="defaultActive"
+             class="el-menu-vertical-demo"
+             @open="handleOpen"
+             @close="handleClose"
+             :collapse="isCollapse"
+             :collapse-transition="true"
+             router>
+      <!-- <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-location"></i>
         <span slot="title">导航一</span>
@@ -21,58 +28,79 @@
         <span slot="title">选项4</span>
         <el-menu-item index="1-4-1">选项1</el-menu-item>
       </el-submenu>
-    </el-submenu>
-    <el-menu-item index="2">
-      <i class="el-icon-menu"></i>
-      <span slot="title">导航二</span>
-    </el-menu-item>
-    <el-menu-item index="3"
-                  disabled>
-      <i class="el-icon-document"></i>
-      <span slot="title">导航三</span>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <i class="el-icon-setting"></i>
-      <span slot="title">导航四</span>
-    </el-menu-item>
-  </el-menu>
+    </el-submenu> -->
+      <el-menu-item index="/home">
+        <i class="el-icon-menu"></i>
+        <span slot="title"
+              route=''>首页</span>
+      </el-menu-item>
+      <el-menu-item index="/note">
+        <i class="el-icon-s-grid"></i>
+        <span slot="title">本子</span>
+      </el-menu-item>
+      <el-menu-item index="/newfeat">
+        <i class="el-icon-edit"></i>
+        <span slot="title">新建壮举</span>
+      </el-menu-item>
+      <el-menu-item index="/user">
+        <i class="el-icon-s-custom"></i>
+        <span slot="title">个人中心</span>
+      </el-menu-item>
+    </el-menu>
+  </div>
 </template>
 
-
+ 
 <script>
 export default {
   name: '',
   components: {},
   props: ['isCollapse'],
   data () {
-    return {      
+    return {
       // isCollapse: true
+      defaultActive: '/home'
     }
   },
   methods: {
-     handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose (key, keyPath) {
+      console.log(key, keyPath);
+    },
+       setCurrentRoute () {
+         
+      this.defaultActive = this.$route.path //关键   通过他就可以监听到当前路由状态并激活当前菜单
+    }
+
   },
   computed: {},
   watch: {
-    isCollapse(a){
+    isCollapse (a) {
       console.log(a);
 
     }
   },
-  created () { }
+  created () { 
+      this.setCurrentRoute()
+  }
 
 }
 </script>
 
 <style lang='less' scoped>
+.loggo {
+  text-align: center;
+  img {
+    margin: 10px 0;
+  }
+}
+.menu {
+  overflow: hidden;
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 400px;
+  min-height: 100%;
 }
 </style>
