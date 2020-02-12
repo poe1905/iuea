@@ -8,6 +8,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //引入请求模块
 import  './utils/request';
+import echarts from 'echarts' //引入echarts 图表模块
+Vue.prototype.$echarts = echarts //挂载vue 原型 实现全局调用
 Vue.use(ElementUI);
 // // 解决路由重复问题
 // import Router from 'vue-router'

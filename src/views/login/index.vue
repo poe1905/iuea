@@ -22,10 +22,10 @@
                       v-model="ruleForm.password"
                       autocomplete="off"></el-input>
           </el-form-item>
-
           <el-form-item>
             <el-button type="primary"
-                       @click="submitForm('ruleForm')">提交</el-button>
+                       @click="submitForm('ruleForm')"
+                       >提交</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -35,11 +35,10 @@
 
 <script>
 
-import axiox from '../../utils/request';
+import {http } from '../../utils/request';
 export default {
   name: 'HelloWorld',
   data () {
-
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
@@ -77,39 +76,48 @@ export default {
     msg: String
   },
   methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) { 
-          axiox.get(`/api/login?username=${this.ruleForm.username}&password=${this.ruleForm.password}`).then(res => {
-            console.log('proxy:', res);
-          });
-        } else {
-          console.log('提交失败检查提交信息');
-          return false;
-        }
-        this.gopage()
-      });
+    log(){
+      console.log(211111111111111111);
     },
-    //测试-跳转倒计时
-    gopage () {
-      let countdown = 3
-      var dataout = setInterval(() => {
-        this.$message({
-          message: `测试登陆登陆还有${countdown}秒`,
-          type: 'warning'
-        });
-        countdown--
-        if (countdown <= 0) {
-          clearInterval(dataout)
+    submitForm (formName) {
+      this.$refs[formName].validate( async() => {
+       const eq= await http.post('/login',this.ruleForm)
+       console.log(eq);
+
+       if (eq.code === 200) {
+         this.$router.push('home')
           this.$message({
             message: `登陆成功`,
             type: 'success'
           });
-
-          this.$router.push('home') //编程式导航
-        }
-      }, 1000);
+       } else {
+          this.$message({
+          message: `密码错误重新登录`,
+          type: 'warning'
+        });
+       }
+      });
     },
+    //测试-跳转倒计时
+    // gopage () {
+    //   let countdown = 3
+    //   var dataout = setInterval(() => {
+    //     this.$message({
+    //       message: `测试登陆登陆还有${countdown}秒`,
+    //       type: 'warning'
+    //     });
+    //     countdown--
+    //     if (countdown <= 0) {
+    //       clearInterval(dataout)
+    //       this.$message({
+    //         message: `登陆成功`,
+    //         type: 'success'
+    //       });
+
+    //       this.$router.push('home') //编程式导航
+    //     }
+    //   }, 1000);
+    // },
 
     resetForm (formName) {
       this.$refs[formName].resetFields();

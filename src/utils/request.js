@@ -10,7 +10,21 @@ import axios from 'axios'
 const request = axios.create({
   baseURL: 'http://192.168.199.116:8080/' // 基础路径
 })
-
+export const http = axios.create({
+  baseURL: '/api' // 基础路径
+})
+http.interceptors.response.use(
+  function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response.data
+  },
+  function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    return Promise.reject(error)
+  }
+)
 // request.defaults.transformResponse = [function (data) {
   // try {
   //   return jsonBig.parse(data)

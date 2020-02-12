@@ -26,7 +26,7 @@
           </el-col>
         </el-row>
       </el-header>
-      <el-main>
+      <el-main  >
         <!-- 二级路由容器 -->
         <router-view />
       </el-main>
@@ -46,8 +46,7 @@ export default {
   data () {
     return {
       isCollapse: false,
-      widths: '201px',
-
+      widths: '201px', 
     }
   },
   methods: {
@@ -80,6 +79,7 @@ export default {
     line-height: 60px;
   .iconn {
     font-size: 25px;
+    
   }
   span {
     font-size: 20px;
