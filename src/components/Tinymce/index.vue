@@ -206,6 +206,8 @@ export default {
     getContent() {
       window.tinymce.get(this.tinymceId).getContent()
     },
+
+    //父级组件接收子组件传来了sc64文件信息保存到富文本内容当中
     imageSuccessCBK(arr) {
       const _this = this
       arr.forEach(v => {

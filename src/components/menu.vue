@@ -92,12 +92,18 @@ export default {
 <style lang='less' scoped>
 .loggo {
   text-align: center;
+  // border-right: 1px solid #e6e6e6;
   img {
     margin: 10px 0;
   }
 }
+.el-menu {
+  height: 100%;
+}
 .menu {
   overflow: hidden;
+  height: 100vh;
+  // border-right: 1px solid #e6e6e6; 边框
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;

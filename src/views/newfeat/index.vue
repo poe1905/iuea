@@ -7,16 +7,16 @@
              class="demo-ruleForm">
       <el-form-item label="壮举的名称"
                     prop="name">
-        <el-input v-model="Form.name"></el-input>
+        <el-input v-model="Form.title"></el-input>
       </el-form-item>
       <el-form-item label="分类"
                     prop="region">
-        <el-select v-model="Form.region"
+        <el-select v-model="Form.type"
                    placeholder="请选择壮举分类">
-          <el-option label="区域一"
-                     value="shanghai"></el-option>
-          <el-option label="区域二"
-                     value="beijing"></el-option>
+          <el-option label="青春不在"
+                     value="0"></el-option>
+          <el-option label="my_code"
+                     value="1"></el-option>
         </el-select>
       </el-form-item>
 
@@ -37,10 +37,9 @@
         <el-input type="textarea"
                   v-model="Form.desc"></el-input>
       </el-form-item> -->
-      <el-form-item label="内容"> 
-        <!-- <tinymce-editor :init="init"
-                        v-model="Form.content"></tinymce-editor> -->
-                        <Tinymce></Tinymce>
+      <el-form-item label="内容">
+        <Tinymce :init="init"
+                 v-model="Form.content"></Tinymce>
 
       </el-form-item>
 
@@ -58,6 +57,7 @@
 // import tinymce from 'tinymce/tinymce'
 // import Editor from "@tinymce/tinymce-vue"
 
+import {http} from '../../utils/request.js';
 import Tinymce from '../../components/Tinymce';
 export default {
   name: 'newfeat',
@@ -68,70 +68,51 @@ export default {
   props: {},
   data () {
     return {
-
       Form: {
-        name: '',//文章名称
-        region: '', //文章分类 
+        title: '',//文章名称
+        type: '', //文章分类
         secret: false,//是否为私密状态
-        resource: '',
-        desc: '',
-        content: ''
+        content: '' //文章内容
       },
       rules: {
-        name: [
+        title: [
           { required: true, message: '请输入壮举名称', trigger: 'blur' }
         ],
-        region: [
+        type: [
           { required: true, message: '请选择壮举类型', trigger: 'change' }
-        ],
-        // resource: [
-        //   { required: true, message: '请选择活动资源', trigger: 'change' }
-        // ], 
+        ]
       },
-      init: { 
-        // language_url: '@/static/zh_CN.js',
-        // language: 'zh_CN',//注意大小写
+      init: {
         language: 'zh_CN',
         language_url: 'https://lab.uxfeel.com/node_modules/tinymce/langs/zh_CN.js',
         height: 330,
-        width: 1000, 
+        width: 1000,
         plugins: `link lists image code table colorpicker textcolor wordcount contextmenu`,
         toolbar: `bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | undo redo | link unlink image code | removeformat`,
         branding: false,
 
         images_upload_handler: function (blobInfo, success, failure) {
-
           var file = blobInfo.blob();
-
           var reader = new FileReader();
-
           reader.readAsDataURL(file);
-
           reader.onloadend = function () {
-
             if (file.size > 1048576) {
-
               failure('图片请不要大于 1MB');
-
             } else {
-
               success(reader.result);
-
             }
-
           }
-
         }
-
       },
-
     }
   },
   methods: {
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          alert('submit!');
+          // alert('submit!');
+          const date = await http.post('/addlist',{data:this.Form})
+          console.log(date);
         } else {
           console.log('error submit!!');
           return false;

@@ -1,10 +1,11 @@
 <template>
   <el-container>
-    <el-aside :width="widths">
+    <el-aside :width="widths" class="menu">
       <Menu :isCollapse='isCollapse' />
     </el-aside>
-    <el-container width='100%'>
-      <el-header class="header">
+    <!--  -->
+    <el-container  class="header" :style="isCollapse  ? 'margin-left: 65px;' : 'margin-left: 201px;'" >
+      <el-header >
 
         <el-row type="flex"
                 justify="space-between">
@@ -77,6 +78,7 @@ export default {
 <style lang='less' scoped>
 .header {
     line-height: 60px;
+    margin-left: 65px;
   .iconn {
     font-size: 25px;
     
@@ -88,6 +90,9 @@ export default {
     margin-left: 10px
   }
 }
+.headers{
+  margin-left: 201px
+}
 .user {
 }
  
@@ -98,4 +103,10 @@ export default {
 .el-icon-arrow-down {
   font-size: 12px;
 } 
+
+//固定左侧导航栏
+.menu{
+  position: fixed;
+  left: 0;
+}
 </style>

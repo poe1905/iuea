@@ -12,6 +12,7 @@ const request = axios.create({
 })
 export const http = axios.create({
   baseURL: '/api' // 基础路径
+  // baseURL: 'http://127.0.0.1:3000' // 基础路径
 })
 http.interceptors.response.use(
   function (response) {
