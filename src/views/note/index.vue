@@ -9,25 +9,58 @@
                          icon="el-icon-edit"
                          @click="dialogFormVisible = true">新建本子</el-button>
             </div>
-            <el-col :span="6"
+
+            <!--
+                  "name": "王大大",
+                  "completion": "false",
+                  "imageUrl": "http://baidu.com",
+                  "secret": "false",
+                  "startTime": 1581686632725,
+                  "endTime": "",
+                  "id": "33qgtbs5jwo0"
+             -->
+            <!-- <el-col :span="6"
                     v-for="(item,index) in typelist"
                     :key="index">
               <el-card shadow="hover"
                        class="card">
                 <span>{{item.name}}</span>
-                <p v-if="item.startTime"><i>开始:{{item.startTime}}</i> <i>结束:{{item.endTime}}</i></p>
-              </el-card>
-            </el-col>
-            <!-- <el-col :span="4">
-              <el-card shadow="hover">
-
-              </el-card>
-            </el-col>
-            <el-col :span="4">
-              <el-card shadow="hover">
-
+                <a href="JavaScript:;"><img src="../../../src/assets/img/loggo.png" alt=""></a>
+                <p ><i v-if="item.startTime">开始:{{item.startTime}}</i> <i v-if="item.endTime">结束:{{item.endTime}}</i></p>
               </el-card>
             </el-col> -->
+            <div class="control">
+
+              <el-row type="flex"
+                      class="cardrow"  
+                      >
+
+                <el-col :span="6"
+                        v-for="o in typelist"
+                        :key="o.id">
+
+                  <el-card :body-style="{ padding: '0px' }"
+                           class="cards">
+                      <img :src="o.imageUrl"
+                           class="image"
+                           @click="goaddcrte(o.id)"
+                           >
+                    <div style="padding: 14px;">
+                      <span>{{o.name}}</span>
+                      <div class="bottom clearfix">
+                        <i v-if="o.startTime">开始: {{ computationTtime(o.startTime)}}</i> <i v-if="o.endTime">结束: {{computationTtime(o.endTime)}}</i>
+                      </div>
+                      <el-button type="text"
+                                 class="button">点击查看</el-button>
+                    </div>
+                  </el-card>
+
+                </el-col>
+
+              </el-row>
+
+            </div>
+
           </el-row>
         </el-card>
       </el-col>
@@ -46,9 +79,11 @@
           <el-switch v-model="form.secret"></el-switch>
         </el-form-item>
       </el-form>
+                 <!-- action="http://127.0.0.1:3000/upload" -->
       <el-upload class="avatar-uploader"
-                 action="http://127.0.0.1:3000/upload"
                  :show-file-list="false"
+                 :http-request='upimgdata'
+                 action="http://127.0.0.1:3000/upload"
                  :on-success="handleAvatarSuccess"
                  :before-upload="beforeAvatarUpload">
         <img v-if="form.imageUrl"
@@ -71,35 +106,24 @@
 
 <script>
 import { http } from '../../utils/request';
+var moment = require('moment');
 export default {
   name: 'note',
   components: {},
   props: {},
   data () {
     return {
-      typelist:
-        [
-          {
-            "id": 0,
-            "name": "青春不在",
-            "completion": false,
-            "startTime": '2133214',
-            "endTime": '2312421312'
-          },
-          {
-            "id": 2,
-            "name": "青春不在1",
-            "Completion": true
-          },
-         
-        ],
+      typelist:[],
       dialogFormVisible: false,
       form: {
-        name: '',
-        delivery: false,
-        imageUrl: '',
-
+        name: '', //本子名称
+        completion: false, //是否完成本子
+        secret: false, //是否私密本子
+        imageUrl: '',//本子的封面//
+        startTime: '',//本子初始化时间
+        endTime: ''//本子结束时间
       },
+      currentDate: new Date()// 卡片测试时间戳
     }
   },
   methods: {
@@ -107,8 +131,12 @@ export default {
     upload () {
       this.dialogFormVisible = false
       // const eq = await http.post('/login', this.ruleForm)
-      console.log(http);
+      // console.log(http);
 
+    },
+    // 上传文件到七牛云
+    upimgdata(a,b,c){
+      console.log(a,b,c ,1111111111111);
     },
     handleAvatarSuccess (res, file) {
       console.log(res, file);
@@ -116,21 +144,43 @@ export default {
       this.form.imageUrl = res.files.file
     },
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg';
+      console.log(file.type);
+      var type = ['image/jpeg', 'image/png', 'image/gif']
+      const isJPG = type.indexOf(file.type) === -1
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
+      if (isJPG) {
         this.$message.error('上传头像图片只能是 JPG 格式!');
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
+    },
+    computationTtime (item) {
+      return moment(item).format('YYYY-MM-DD HH:mm:ss')
+
+    },
+    // 根据文章id 获取文章列表
+    async initlist(){
+      const data = await http('http://127.0.0.1:3000/type')
+      this.typelist = data
+      console.log(data);
+    },
+    //导航跳转
+    goaddcrte(id){
+      this.$router.push(`/note/${id}`)
+
     }
+
+
   },
-  computed: {},
+  computed: {
+  },
   watch: {},
-  created () { }
+  created () {
+    this.initlist()//初始化壮举数据
+  }
 
 }
 </script>
@@ -161,12 +211,45 @@ export default {
   display: block;
 }
 //
+
+//卡片样式
+.time {
+  font-size: 13px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+}
+
+.button {
+  padding: 0;
+  float: right;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+//
 .control {
-  margin: 20px;
+  margin: 0 20px;
 }
 .card {
   height: 300px;
   margin-bottom: 20px;
+  display: flex;
   p {
     display: flex;
     justify-content: space-around;
@@ -176,5 +259,28 @@ i {
   font-style: normal;
   font-size: 12px;
   color: #ccc;
+}
+
+.cardrow {
+  display: flex;
+  // flex-direction: column
+  line-height: 1em;
+  // justify-content: space-around;
+  flex-wrap: wrap;
+  .clearfix {
+    display: flex;
+    flex-direction: column;
+  }
+  .cards {
+    width: 300px;
+    margin: 30px 0;
+
+    span {
+      line-height: 1em;
+    }
+  }
+}
+.el-button--text {
+  margin: 10px 0;
 }
 </style>

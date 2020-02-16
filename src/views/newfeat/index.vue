@@ -13,10 +13,12 @@
                     prop="region">
         <el-select v-model="Form.type"
                    placeholder="请选择壮举分类">
-          <el-option label="青春不在"
-                     value="0"></el-option>
-          <el-option label="my_code"
-                     value="1"></el-option>
+          <el-option v-for=" o in typelist"
+                     :key="o.id"
+                     :label="o.name"
+                     :value="o.id"></el-option>
+          <!-- <el-option label="my_code"
+                     value="1"></el-option> -->
         </el-select>
       </el-form-item>
 
@@ -57,7 +59,7 @@
 // import tinymce from 'tinymce/tinymce'
 // import Editor from "@tinymce/tinymce-vue"
 
-import {http} from '../../utils/request.js';
+import { http } from '../../utils/request.js';
 import Tinymce from '../../components/Tinymce';
 export default {
   name: 'newfeat',
@@ -74,6 +76,7 @@ export default {
         secret: false,//是否为私密状态
         content: '' //文章内容
       },
+      typelist: [],
       rules: {
         title: [
           { required: true, message: '请输入壮举名称', trigger: 'blur' }
@@ -107,11 +110,18 @@ export default {
     }
   },
   methods: {
+
+    //获取所有列表数据
+    async initlist () {
+      const {data} = await http('http://127.0.0.1:3000/type')
+      this.typelist = data
+      console.log(data);
+    },
     submitForm (formName) {
-      this.$refs[formName].validate(async(valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           // alert('submit!');
-          const date = await http.post('/addlist',{data:this.Form})
+          const date = await http.post('/addlist', { data: this.Form })
           console.log(date);
         } else {
           console.log('error submit!!');
@@ -126,6 +136,7 @@ export default {
   watch: {},
   created () {
     // console.log('调用', tinymce);
+    this.initlist()
   }
 
 }

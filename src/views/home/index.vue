@@ -4,11 +4,13 @@
       <Menu :isCollapse='isCollapse' />
     </el-aside>
     <!--  -->
-    <el-container  class="header" :style="isCollapse  ? 'margin-left: 65px;' : 'margin-left: 201px;'" >
+    <el-container  :style="isCollapse  ? 'margin-left: 65px;' : 'margin-left: 201px;'" >
       <el-header >
 
         <el-row type="flex"
-                justify="space-between">
+                justify="space-between"
+                 class="header"
+                 >
           <el-col :span="8"> <i :class="classcheng"
                @click="chenge"></i>
             <span class="headline">心心念念已久的笔记记录平台</span> </el-col>
@@ -78,7 +80,7 @@ export default {
 <style lang='less' scoped>
 .header {
     line-height: 60px;
-    margin-left: 65px;
+    // margin-left: 65px;
   .iconn {
     font-size: 25px;
     
@@ -93,8 +95,7 @@ export default {
 .headers{
   margin-left: 201px
 }
-.user {
-}
+
  
 .el-dropdown-link {
   cursor: pointer;
