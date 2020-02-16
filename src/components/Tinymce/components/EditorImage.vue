@@ -8,13 +8,13 @@
       上传
     </el-button>
     <el-dialog :visible.sync="dialogVisible">
-      <el-upload :multiple="true"
-                 :file-list="fileList"
+      <el-upload class="editor-slide-upload"
+                 :multiple="true"
                  :show-file-list="false"
+                 :file-list="fileList"
                  :on-remove="handleRemove"
                  :on-success="handleSuccess"
                  :before-upload="beforeUpload"
-                 class="editor-slide-upload"
                  :action='upload_qiniu_url'
                  list-type="picture-card"
                  :data="qiniuData">
@@ -131,7 +131,10 @@ export default {
     //获取文件上传toke
     async getToke () {
       const {token} = await http('http://127.0.0.1:3000/getToken')
-      this.qiniuData.token = token
+      console.log(token);
+      this.qiniuData.token = token;
+      
+      window.localStorage.setItem('token', token)
     }
   },
   created () {

@@ -48,7 +48,7 @@
       <el-form-item>
         <el-button type="primary"
                    @click="submitForm('ruleForm')">立即发布</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button @click="resetForm()">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -129,8 +129,14 @@ export default {
         }
       });
     },
-    resetForm (formName) {
-      this.$refs[formName].resetFields();
+    resetForm () {
+      // this.$refs[formName].resetFields();
+       this.Form =  {
+        title: '',//文章名称
+        type: '', //文章分类
+        secret: false,//是否为私密状态
+        content: '' //文章内容
+      }
     }  },
   computed: {},
   watch: {},
