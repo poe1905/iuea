@@ -15,10 +15,10 @@
                @click="chenge"></i>
             <span class="headline">心心念念已久的笔记记录平台</span> </el-col>
           <el-col :span="3"  class="user">
-              <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" ></el-avatar>
+              <el-avatar :src="user.headUrl" ></el-avatar>
             <el-dropdown>
               <span class="el-dropdown-link">
-                用户名<i class="el-icon-arrow-down el-icon--right"></i>
+                {{user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>个人中心</el-dropdown-item>
@@ -41,7 +41,7 @@
 <script>
 import Menu from '@/components/menu.vue';
 export default {
-  name: '',
+  name: 'home',
   components: {
     Menu
   },
@@ -49,12 +49,17 @@ export default {
   data () {
     return {
       isCollapse: false,
-      widths: '201px', 
+      widths: '201px',
+      user:{}
     }
   },
   methods: {
     chenge () {
       this.isCollapse = !this.isCollapse
+    },
+    lodeuser(){
+      const user = JSON.parse(window.localStorage.getItem("user")) ? JSON.parse(window.localStorage.getItem("user")) : ''
+      this.user = user
     }
   },
   computed: {
@@ -72,7 +77,9 @@ export default {
       a ? this.widths = '65px' : this.widths = '201px'
     }
   },
-  created () { }
+  created () { 
+    this.lodeuser() // 从本地获取用户信息
+  }
 
 }
 </script>

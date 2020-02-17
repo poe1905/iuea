@@ -71,7 +71,7 @@
     <!-- 模态框开始新建一个本子 -->
     <el-dialog title="新建一个本子"
                :visible.sync="dialogFormVisible">
-      <el-form :model="form">
+      <el-form :model="form" ref='form'>
         <el-form-item label="本子的名称">
           <el-input v-model="form.name"
                     autocomplete="off"></el-input>
@@ -98,7 +98,7 @@
            class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary"
-                   @click="upload">确 定</el-button>
+                   @click="upload('form')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 模态框结束 -->
@@ -198,11 +198,12 @@ export default {
   },
   methods: {
     //添加文章类型按钮
-    async upload () {
+    async upload (name) {
       const eq = await http.post('/settype', this.form)
       console.log(eq);
+        this.$refs[name].resetFields();
       this.dialogFormVisible = false
-
+      this.initlist()
     },
 
     //文件上传成功函数

@@ -8,7 +8,7 @@ import axios from 'axios'
 
 // axios.create 方法：复制一个 axios
 const request = axios.create({
-  baseURL: 'http://192.168.199.116:8080/' // 基础路径
+  baseURL : 'http://ttapi.research.itcast.cn/mp/v1_0/'
 })
 export const http = axios.create({
   baseURL: '/api' // 基础路径
