@@ -161,18 +161,17 @@ export default {
       let { data } = await axios(
         {
           method: 'get',
-          url: 'http://api.tianapi.com/txapi/dictum/index',
-          params: {
-            key: '498e7a7d418c34b904ab6f9eba394753',
-            num: 1
+          url: 'http://api.tianapi.com/txapi/dictum/index?key=498e7a7d418c34b904ab6f9eba394753&num=1',
+          // params: {
+          //   key: '498e7a7d418c34b904ab6f9eba394753',
+          //   num: 1
 
-          }
+          // }
         }
       )
-
-      // console.log(data.newslist[0]);
-
       this.dictum = data.newslist[0]
+
+
 
     },
     drawLine () {
@@ -180,10 +179,9 @@ export default {
       let myChart = this.$echarts.init(document.getElementById('myChart'))
       // 绘制图表
       myChart.setOption({
-        title: { text: '近期的6个项目' },
         tooltip: {},
         xAxis: {
-          data: ["项目1", "项目2", "项目3", "项目4", "项目5", "项目6"]
+          data: ["项目1", "项目2", "天上人间", "项目4", "项目5", "项目6"]
         },
         yAxis: {},
         series: [{

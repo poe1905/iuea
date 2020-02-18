@@ -14,6 +14,9 @@
           <el-col :span="8"> <i :class="classcheng"
                @click="chenge"></i>
             <span class="headline">心心念念已久的笔记记录平台</span> </el-col>
+          <el-col :span="3"> 
+            <FlipClock></FlipClock>
+          </el-col>
           <el-col :span="3"  class="user">
               <el-avatar :src="user.headUrl" ></el-avatar>
             <el-dropdown>
@@ -39,11 +42,13 @@
 
 
 <script>
+import FlipClock from '@/components/FlipClock';
 import Menu from '@/components/menu.vue';
 export default {
   name: 'home',
   components: {
-    Menu
+    Menu,
+    FlipClock
   },
   props: {},
   data () {
