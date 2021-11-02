@@ -17,7 +17,7 @@
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
     "qiniu-js": "^2.5.5",
-    "tinymce": "^5.1.6",
+    "tinymce": "^5.10.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5"
   },
